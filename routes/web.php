@@ -17,20 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/series', function () {
-    $series = [
-        'Friends',
-        'This is Us',
-        '24h',
-        'The Walking Dead'
-    ];
-
-    $html = "<ul>";
-    foreach ($series as $serie){
-        $html .="<li>$serie</li>";
-    }
-
-    $html .= "</ul>";
-
-    echo $html;
-});
+Route::get('/series', 'SeriesController@index');
+Route::get('/series/criar', 'SeriesController@create');
