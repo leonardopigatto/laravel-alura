@@ -10,6 +10,7 @@ Adicionar uma Série
 
 @section('conteudo')
 <form method="POST">
+    @csrf
     <div class="form-group">
         <label for="nome" class="">Nome:</label>
         <input type="text" class="form-control" name="nome" id="nome">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Serie;
 
 class SeriesController extends Controller
 {
@@ -13,12 +14,7 @@ class SeriesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-        $series = [
-            'Friends',
-            'This is Us',
-            '24h',
-            'The Walking Dead'
-        ];
+        $series = Serie::all();
 
         return view('series.index', [
             'series' => $series
@@ -27,5 +23,12 @@ class SeriesController extends Controller
 
     public function create() {
         return view('series.create');
+    }
+
+    public function store(Request $request) {
+        $nome = $request->nome;
+        $serie = Serie::create($request->all());
+
+        echo "Serie: " . $serie->nome . " adicionada com ID: " . $serie->id;
     }
 }
