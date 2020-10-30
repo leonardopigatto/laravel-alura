@@ -14,10 +14,15 @@ class SeriesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-        $series = Serie::all();
+        $series = Serie::query()
+            ->orderBy('nome')
+            ->get();
+
+        $mensagem = $request->session()->get('mensagem');
 
         return view('series.index', [
-            'series' => $series
+            'series' => $series,
+            'mensagem' => $mensagem
         ]);
     }
 
@@ -26,9 +31,24 @@ class SeriesController extends Controller
     }
 
     public function store(Request $request) {
-        $nome = $request->nome;
         $serie = Serie::create($request->all());
+        $request->session()
+            ->flash(
+                'mensagem',
+                "Serie: {$serie->nome} adicionada com ID: {$serie->id}"
+            );
 
-        echo "Serie: " . $serie->nome . " adicionada com ID: " . $serie->id;
+        return redirect()->route('listar_series');
+    }
+
+    public function destroy(Request $request) {
+        Serie::destroy($request->id);
+        $request->session()
+        ->flash(
+            'mensagem',
+            "Serie removida com sucesso"
+        );
+
+        return redirect()->route('listar_series');
     }
 }
